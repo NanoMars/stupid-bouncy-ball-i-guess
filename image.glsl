@@ -1,20 +1,10 @@
-// Welcome! This is a Shadertoy-style shader.
-// mainImage runs once for each pixel, every frame.
-// Try changing a number, then watch the preview on the right.
-
-void mainImage( out vec4 fragColor, in vec2 fragCoord )
-{
-    // Pixel position, from 0 to 1 across the screen.
+// Shadergator first shader practice
+void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     vec2 uv = fragCoord / iResolution.xy;
-
-    // A colour that shifts over time.
-    vec3 col = 0.5 + 0.5 * cos(iTime + uv.xyx + vec3(0.0, 2.0, 4.0));
-
-
-    // A soft circle in the middle that follows the mouse while you hold a button.
-    vec2 centre = iMouse.z > 0.0 ? iMouse.xy : 0.5 * iResolution.xy;
-    float d = length(fragCoord - centre) / iResolution.y;
-    col *= smoothstep(0.35, 0.3, d) * 0.5 + 0.5;
-
-    fragColor = vec4(col, 1.0);
+    
+    vec2 point = (uv - vec2(0.5 - cos(iTime + 5.0) / 2.0, 0.5)) * vec2(iResolution.x * 3.0 * sin(iTime * 1.0) / 1.0 / iResolution.y, 0.8 - cos(iTime) / 8.0);
+    float circle = 1.0 - smoothstep(0.24999, 0.25, length(point));
+    vec3 paint = vec3(0.2, 0.6, 0.9);
+    fragColor = vec4(paint / circle, 1.0);
+    
 }
